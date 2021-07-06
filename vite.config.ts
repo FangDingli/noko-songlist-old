@@ -10,5 +10,14 @@ export default defineConfig({
       "@": resolve(__dirname, "./src")
     }
   },
+  server: {
+    proxy: {
+      "/devServer": {
+        target: "http://songlist-back.noko.live",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/devServer/, '')
+      }
+    }
+  },
   plugins: [vue()]
 })

@@ -16,6 +16,11 @@
 
 <script setup lang="ts">
 import { NSpace, NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui'
+import Base from '@/lib/ts/Base'
+
+const getSongList = Base.NetBase.create({
+  baseUrl: 'http://songlist-back.noko.live',
+})
 </script>
 
 <style>
