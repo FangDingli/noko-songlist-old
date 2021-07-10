@@ -18,8 +18,9 @@ export const getList = (url: string, params: any) => baseRequest.get(url, params
 
 export const commonPost = (url: string, params: any) => baseRequest.post(url, params)
 
-export const getSongList = (url: string, params: SongListParams) => Base.NetBase.spost("/devServer" + url, params, {
+export const getSongList = (url: string, params: SongListParams) => Base.NetBase.spost(appBaseUrl + url, params, {
+  credentials: "omit",
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   }
 })

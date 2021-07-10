@@ -25,6 +25,7 @@ export default class NetBase {
     }
 
     static create(config: NetBaseConfig) {
+        console.log(config)
         return new NetBase(config);
     }
 
@@ -48,6 +49,7 @@ export default class NetBase {
             _config.body = JSON.stringify(_config.body)
         }
         // _config = NetBase.interceptor.post(_config);
+        console.log("_config:", _config)
         return NetBase.request<T>(url, _config, params, config as NetBaseConfig);
     }
 
@@ -75,7 +77,6 @@ export default class NetBase {
         for (var key in obj) {
             if (!['_success', '_fail', '_complete'].includes(key)) param[key] = obj[key];
         }
-        console.log(param)
         return param;
     }
 

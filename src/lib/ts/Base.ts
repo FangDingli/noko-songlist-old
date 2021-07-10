@@ -8,7 +8,7 @@ import Cookie from './Cookie';
 import NetBase from './NetBase';
 import Storage from './Storage';
 
-const IS_DEV = process.env.NODE_ENV == 'development'
+const IS_DEV = import.meta.env.MODE == 'development'
 
 export default class Base {
 
@@ -24,5 +24,5 @@ export default class Base {
         let b = JSON.parse(a);
         return b;
     }
-    
+
 }

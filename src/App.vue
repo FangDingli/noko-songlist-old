@@ -40,6 +40,8 @@ const isLoading = computed(() => store.state.isLoading)
 let songListAll = ref<TableData[]>([])
 const currSongList = computed(() => store.getters.getSongListCurr)
 
+console.log(import.meta.env.MODE)
+
 getSongList('/songshower/show?username=noko', {
   param: '',
   randomFlag: false,
