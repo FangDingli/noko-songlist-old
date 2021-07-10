@@ -1,45 +1,80 @@
 <template>
-  <!-- <div id="nav">
-		<router-link to="/">{{ $t("nav.home") }}</router-link> |
-		<router-link to="/about">{{ $t("nav.about") }}</router-link> |
-		<router-link to="/example">{{ $t("nav.example") }}</router-link>
-	</div> -->
-  <!-- <router-view /> -->
-  <!-- <div hidden>我知道你肯定会修改这里的^.^</div> -->
-  <NSpace vertical size="large">
-    <NLayout>
-      <NLayoutHeader>这是脑袋</NLayoutHeader>
-      <NLayoutContent>这是内容</NLayoutContent>
-    </NLayout>
-  </NSpace>
+  <NConfigProvider :theme="currTheme">
+    <NSpace vertical>
+      <NLayout embedded class="container">
+        <NLayoutHeader><Header :songListAll="songListAll"></Header></NLayoutHeader>
+        <NLayoutContent class="content"
+          ><NSpin size="large" :show="isLoading"
+            ><SongList :dataList="currSongList"></SongList
+          ></NSpin>
+        </NLayoutContent>
+      </NLayout>
+    </NSpace>
+  </NConfigProvider>
 </template>
 
 <script setup lang="ts">
-import { NSpace, NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui'
-import Base from '@/lib/ts/Base'
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+import type { StateProps, TableData } from '@/store'
+import {
+  NSpace,
+  NLayout,
+  NLayoutHeader,
+  NLayoutContent,
+  NSpin,
+  NConfigProvider,
+  darkTheme,
+  useOsTheme,
+} from 'naive-ui'
+import { getSongList } from '@/api/'
+import SongList from './components/SongList.vue'
+import Header from './components/Header.vue'
 
-const getSongList = Base.NetBase.create({
-  baseUrl: 'http://songlist-back.noko.live',
+const osTheme = useOsTheme()
+const currTheme = computed(() => (osTheme.value === 'dark' ? darkTheme : null))
+const store = useStore<StateProps>()
+
+const isLoading = computed(() => store.state.isLoading)
+// const songListAll = computed(() => store.state.songListAll)
+let songListAll = ref<TableData[]>([])
+const currSongList = computed(() => store.getters.getSongListCurr)
+
+getSongList('/songshower/show?username=noko', {
+  param: '',
+  randomFlag: false,
+  type: 'none',
+}).then(res => {
+  store.commit('setSongListAll', res)
+  store.commit('setSongListCurr', res)
+  songListAll.value = res as TableData[]
+  store.commit('setLoading', false)
 })
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.content {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#nav {
-  padding: 30px;
+.fullscreen_loading {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.3);
+  z-index: 5;
 }
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
+
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 </style>

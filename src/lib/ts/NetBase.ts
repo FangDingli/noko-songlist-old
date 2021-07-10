@@ -15,7 +15,7 @@ export default class NetBase {
     }
 
     async post<T>(url: string, params: NetParams = {}): Promise<T> {
-        url = this.config.baseUrl  + url;
+        url = this.config.baseUrl + url;
         return NetBase.spost<T>(url, params, this.config)
     }
 
@@ -44,6 +44,9 @@ export default class NetBase {
         if (_config.headers["Content-Type"] === "application/x-www-form-urlencoded") {
             _config.body = NetBase.params2Params(_config.body)
         }
+        if (_config.headers["Content-Type"] === "application/json") {
+            _config.body = JSON.stringify(_config.body)
+        }
         // _config = NetBase.interceptor.post(_config);
         return NetBase.request<T>(url, _config, params, config as NetBaseConfig);
     }
@@ -68,11 +71,12 @@ export default class NetBase {
 
     /** 获取请求数据（私有） */
     private static getParams(obj: NetParams): AnyObject {
-		var param: AnyObject = {};
-		for (var key in obj) {
-			if (!['_success', '_fail', '_complete'].includes(key)) param[key] = obj[key];
-		}
-		return param;
+        var param: AnyObject = {};
+        for (var key in obj) {
+            if (!['_success', '_fail', '_complete'].includes(key)) param[key] = obj[key];
+        }
+        console.log(param)
+        return param;
     }
 
     private static params2Params(obj: AnyObject | string): string {
@@ -83,7 +87,7 @@ export default class NetBase {
             if (typeof obj[key] === "object") obj[key] = JSON.stringify(obj[key]);
             // 过滤空数据
             if (obj[key] === null || obj[key] === undefined) continue;
-            params.push(key+'='+obj[key]);
+            params.push(key + '=' + obj[key]);
         }
         return params.join("&");
     }
@@ -92,14 +96,14 @@ export default class NetBase {
         let sparam = this.params2Params(obj);
         let and: string = "?";
         if (url.includes("?")) and = "&";
-        sparam = sparam ? and+sparam : "";
-        return url+sparam;
+        sparam = sparam ? and + sparam : "";
+        return url + sparam;
     }
 
     private static async request<T>(url: string, config: NetConfig, params: NetParams, baseConfig?: NetBaseConfig): Promise<T> {
         return new Promise<T>((resolve: (value: T) => void, reject: (reason?: any) => void) => {
             fetch(url, config)
-                .then(res=> {
+                .then(res => {
                     if (res.status === 200) {
                         res.json()
                             .then(json => {
@@ -159,15 +163,15 @@ export default class NetBase {
     //         NetBase._postarr.push(obj);
     //         return;
     //     }
-	// 	let formData;
-	// 	if (obj.form) {
-	// 		formData = new FormData(obj.form);
-	// 	} else {
-	// 		formData = new FormData();
-	// 	}
+    // 	let formData;
+    // 	if (obj.form) {
+    // 		formData = new FormData(obj.form);
+    // 	} else {
+    // 		formData = new FormData();
+    // 	}
     //     let url = obj.url || Core.URL_API;
     //     url += obj.s ? '' + obj.s : '';
-	// 	let params = NetBase._getPostParams(obj);
+    // 	let params = NetBase._getPostParams(obj);
     //     // formData.append(JSON.stringify(params));
     //     for (let key in params) {
     //         formData.append(key, params[key]);

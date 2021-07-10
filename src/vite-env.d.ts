@@ -2,4 +2,6 @@
 
 interface ImportMeta {
   env: Record<string, unknown>
+  globEager: any
+  hot: any
 }

@@ -1,19 +1,25 @@
 <template>
-  <NDataTable :columns="columns"></NDataTable>
+  <NDataTable
+    :columns="columns"
+    :data="dataList"
+    :row-key="rowData => rowData.songId"
+    virtual-scroll
+    :max-height="'100%'"
+    size="small"
+  ></NDataTable>
 </template>
 
 <script setup lang="ts">
-interface TableData {
-  songId: number
-  title: string
-  album: string
-  artist: string
-}
+import type { TableData } from '@/store'
 
-import { h } from '@vue/runtime-core'
+import { h, defineProps, toRefs } from 'vue'
 import { NDataTable, NTag } from 'naive-ui'
 
-const columns = () => [
+const props = defineProps<{ dataList: TableData[] }>()
+
+const { dataList } = toRefs(props)
+
+const columnsGen = () => [
   {
     title: '歌名',
     key: 'title',
@@ -26,6 +32,8 @@ const columns = () => [
     },
   },
 ]
+
+const columns = columnsGen()
 </script>
 
 <style></style>

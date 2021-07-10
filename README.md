@@ -1,47 +1,26 @@
-# Installation
+# Noko-songlist
 
-After pulling the code, execute `npm install` in the root directory of the project. After success, execute `npm run dev` to start the project (nodejs + npm needs to be installed)
+这是一个为[Noko](https://space.bilibili.com/393885664/)制作的简单的歌曲列表展示页面
 
-# Built-in
-* NetBase([Fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch))
-* Cookie
-* Storage
-* [vue-router](https://next.router.vuejs.org/zh/)
-* [vuex](https://next.vuex.vuejs.org/zh/)
-* [element-plus](https://element-plus.gitee.io/#/zh-CN/component/installation)
+基于 Vue3+Vite+Naive-UI+Typescript 开发，提供极速的开发体验以及良好的类型支持
 
-# Note
-* This framework adopts [Fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch) as a network requester, it is not recommended to introduce Axios again
-* Please do not modify all the files under the `lib` folder in the business project
-* It is recommended that the custom root library be inherited from `lib/ts/Base`
-* [gitee](https://gitee.com/phcs/vite-ts-quick) is only for domestic users to pull code，from [github](https://github.com/pohunchn/vite-ts-quick) to synchronize，please visit [github](https://github.com/pohunchn/vite-ts-quick) for PR
-* **Welcome to Issues and PR**
+感谢 [vite-ts-quick](https://github.com/pohunchn/vite-ts-quick) 提供的模板以及网络请求库等各种自己实现的库的支持（详见 lib 文件夹）
 
-# How to use vue3
+## 主要实现特性：
 
-## Vue 3 + Typescript + Vite
+怎么就这点功能我做了这么久？
 
-This template should help get you started developing with Vue 3 and Typescript in Vite.
+- 简单的移动端适配
+- 长列表实现虚拟滚动，免去翻页烦恼的同时保证性能
+- 检测系统主题自动切换亮色与深色模式
+- 网络请求基于JavaScript自带的fetch，不再引入axios
+  
 
-### Recommended IDE Setup
+## TodoList:
 
-[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
+老懒狗了不知道什么时候做
 
-#### If Using `<script setup>`
-
-[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
-
-### Type Support For `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
-
-#### If Using Volar
-
-Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-#### If Using Vetur
-
-1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
-2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
-3. Open `src/main.ts` in VSCode
-4. Open the VSCode command palette 5. Search and run "Select TypeScript version" -> "Use workspace version"
+- [ ] 搜索框模糊搜索
+- [ ] 搜索框根据输入关键词弹出搜索提示
+- [ ] 要不基于这个项目将主页和按钮站整合进去？
+- [ ] ...
