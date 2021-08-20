@@ -7,7 +7,7 @@
       <NInputGroup>
         <NInput
           v-model:value="inputValue"
-          type="input"
+          type="text"
           @keyup.enter="handleSearch"
           placeholder="输入歌名或歌手"
         ></NInput>
@@ -65,8 +65,9 @@ const handleSearch = () => {
   if (inputValue.value === '') {
     return
   } else {
+    const patt = new RegExp(inputValue.value, 'i')
     props.songListAll.forEach(item => {
-      if (item.title === inputValue.value || item.artist === inputValue.value) {
+      if (patt.test(item.title) || patt.test(item.artist)) {
         temp.push(item)
       }
     })
